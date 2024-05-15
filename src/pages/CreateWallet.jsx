@@ -4,16 +4,20 @@ import EZButton from "../components/EZButton";
 import { useNavigate } from "react-router-dom";
 import store from "store2";
 
-
-
 export default function CreateWallet({ setWallet, setSeedPhrase, provider }) {
   const [newSeedPhrase, setNewSeedPhrase] = useState("");
   const [newAddress, setNewAddress] = useState("");
   const navigate = useNavigate();
-  async  function createWallet() {
-    const res = await (await fetch(`http://127.0.0.1:3000/new-seed?provider=${provider}`)).json();
-    setNewSeedPhrase(res.mnemonic);
-    setNewAddress(res.account);
+  async function createWallet() {
+    try {
+      const res = await (
+        await fetch(`http://127.0.0.1:3000/new-seed?provider=${provider}`)
+      ).json();
+      setNewSeedPhrase(res.mnemonic);
+      setNewAddress(res.account);
+    } catch (error) {
+      console.error(error);
+    }
   }
   function useThisWallet() {
     setWallet(newAddress);
