@@ -19,7 +19,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
-    "store2": "^2.14.3"
+    "store2": "^2.14.3",
+    "use-clipboard-api": "^0.3.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

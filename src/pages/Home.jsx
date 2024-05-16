@@ -8,7 +8,7 @@ export function Home() {
     <div className="p-[8px]">
       <WelcomeMessage />
       <section className="my-[16px]">
-        <EZButton type="primary">Sign-in an exist wallet</EZButton>
+        <EZButton type="primary" onClick={() => navigate("/recover")}>Sign-in an exist wallet</EZButton>
         <EZButton onClick={() => navigate("/create")} >Create a new wallet</EZButton>
       </section>
     </div>

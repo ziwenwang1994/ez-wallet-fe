@@ -6,6 +6,7 @@ import EZHeader from "./components/EZHeader";
 import CreateWallet from "./pages/CreateWallet";
 import store from "store2";
 import MyWallet from "./pages/MyWallet";
+import RecoverWallet from "./pages/RecoverWallet";
 
 function App() {
   const [provider, setProvider] = useState(web3ServiceProviders[0]?.value);
@@ -39,11 +40,29 @@ function App() {
                   />
                 }
               />
+              <Route
+                path="/recover"
+                element={
+                  <RecoverWallet
+                    setSeedPhrase={setSeedPhrase}
+                    setWallet={setWallet}
+                    provider={provider}
+                  />
+                }
+              />
             </Routes>
           )) || (
             <Routes>
-              <Route path="/" element={<MyWallet wallet={wallet} setSeedPhrase={setSeedPhrase}
-                    setWallet={setWallet} />} />
+              <Route
+                path="/"
+                element={
+                  <MyWallet
+                    wallet={wallet}
+                    setSeedPhrase={setSeedPhrase}
+                    setWallet={setWallet}
+                  />
+                }
+              />
             </Routes>
           )}
         </BrowserRouter>
