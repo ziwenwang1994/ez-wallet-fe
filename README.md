@@ -1,4 +1,4 @@
-# Web3 Wallet Frontend
+# EZ Wallet Frontend
 
 This is a web3 wallet frontend application built with React, Vite, TailwindCSS, Ant Design (antd), ethers.js, and @solana/web3.js. The application interacts with a backend service to generate new Ethereum (ETH) or Solana (SOL) wallets.
 
