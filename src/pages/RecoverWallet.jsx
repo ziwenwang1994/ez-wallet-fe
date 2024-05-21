@@ -2,23 +2,22 @@ import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import EZButton from "../components/EZButton";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function RecoverWallet({ setSeedPhrase, setWallet, provider }) {
   const [typedSeedPhrase, setTypedSeedPhrase] = useState("");
   const navigate = useNavigate();
   async function recoverWallet() {
     const res = await (
-      await fetch(`http://127.0.0.1:3000/recover`, {
-        method: "POST",
+      axios.post(`http://127.0.0.1:3000/recover`, { phrase: typedSeedPhrase, provider },{
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phrase: typedSeedPhrase, provider }),
       })
-    ).json();
+    );
     setSeedPhrase(typedSeedPhrase);
-    setWallet(res.account);
+    setWallet(res?.data?.account);
     navigate("/");
   }
   return (

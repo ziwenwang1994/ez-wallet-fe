@@ -13,6 +13,7 @@
     "@ant-design/icons": "^5.3.7",
     "@solana/web3.js": "^1.91.8",
     "antd": "^5.17.2",
+    "axios": "^1.7.1",
     "bip39": "^3.1.0",
     "ethereumjs-wallet": "^1.0.2",
     "ethers": "^6.12.1",

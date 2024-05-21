@@ -60,6 +60,7 @@ function App() {
                     wallet={wallet}
                     setSeedPhrase={setSeedPhrase}
                     setWallet={setWallet}
+                    provider={provider}
                   />
                 }
               />
