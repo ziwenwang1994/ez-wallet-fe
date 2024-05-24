@@ -30,6 +30,9 @@ export default function CreateWallet({ setWallet, setSeedPhrase, provider }) {
   const useThisWallet = () => {
     setWallet(newAddress);
     setSeedPhrase(newSeedPhrase);
+    const account = store("account") || {};
+    account[provider] = newAddress;
+    store("account", account);
     navigate("/");
   };
 

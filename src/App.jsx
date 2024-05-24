@@ -9,15 +9,20 @@ import MyWallet from "./pages/MyWallet";
 import RecoverWallet from "./pages/RecoverWallet";
 
 function App() {
-  const [provider, setProvider] = useState(web3ServiceProviders[0]?.value);
-  const [wallet, setWallet] = useState(store("address") || "");
+  const [provider, setProvider] = useState(
+    store("chain") || web3ServiceProviders[0]?.value
+  );
+  const [wallet, setWallet] = useState(store("account")?.[provider] || "");
   const [seedPhrase, setSeedPhrase] = useState(store("seedPhrase") || "");
   useEffect(() => {
     store("seedPhrase", seedPhrase);
   }, [seedPhrase]);
+
   useEffect(() => {
-    store("address", wallet);
-  }, [wallet]);
+    store("chain", provider);
+    const account = store("account") || {};
+    setWallet(account[provider] || "");
+  }, [provider]);
   return (
     <>
       <main className="h-[600px] bg-[#edf8fa] w-[350px] overflow-hidden">

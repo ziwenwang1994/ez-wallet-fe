@@ -3,6 +3,7 @@ import { useState } from "react";
 import EZButton from "../components/EZButton";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import store from "store2";
 
 export default function RecoverWallet({ setSeedPhrase, setWallet, provider }) {
   const [typedSeedPhrase, setTypedSeedPhrase] = useState("");
@@ -18,6 +19,9 @@ export default function RecoverWallet({ setSeedPhrase, setWallet, provider }) {
     );
     setSeedPhrase(typedSeedPhrase);
     setWallet(res?.data?.account);
+    const account = store("account") || {};
+    account[provider] = res?.data?.account;
+    store("account", account);
     navigate("/");
   }
   return (

@@ -16,6 +16,7 @@ export default function MyWallet({ wallet, setWallet, setSeedPhrase, provider })
 
   async function getTokenIcon(metadataUri) {
     try {
+      if(!metadataUri) return "";
       const response = await axios.get(metadataUri);
       return response.data.image;
     } catch (error) {
@@ -30,7 +31,7 @@ export default function MyWallet({ wallet, setWallet, setSeedPhrase, provider })
         const { data } = await axios.get(
           `http://127.0.0.1:3000/wallet?public_key=${wallet}&provider=${provider}`
         );
-        const filteredTokens = data.tokens?.filter((el) => !!el.metadata) || [];
+        const filteredTokens = data.tokens || [];
         setTokens(filteredTokens);
       } catch (err) {
         console.error("Error fetching wallet data:", err);
@@ -43,33 +44,32 @@ export default function MyWallet({ wallet, setWallet, setSeedPhrase, provider })
     if (wallet) {
       fetchWalletData();
     }
-  }, [wallet]);
+  }, [wallet, provider]);
 
   useEffect(() => {
-    const fetchTokenIcons = async () => {
+    const createTokenElement = async () => {
+      tokens.sort((a, b) =>  a.amount - b.amount);
       const tokenList = [];
 
-      for (const token of tokens) {
-        const { metadata, tokenAccount } = token;
-        if (metadata) {
-          const metadataUri = metadata.data.data.uri;
+      for (const tokenInfo of tokens) {
+        if (tokenInfo.publicKey) {
+          const metadataUri =tokenInfo.url;
           const iconUrl = await getTokenIcon(metadataUri);
           tokenList.push(
             <TokenCard
-              key={tokenAccount.pubkey}
-              name={metadata.data.data.name}
+              key={tokenInfo.publicKey}
+              name={tokenInfo.name}
               icon={iconUrl}
-              amount={tokenAccount.account.data.parsed.info.tokenAmount.amount}
+              amount={tokenInfo.amount}
             />
           );
         }
       }
-
       setTokenElements(tokenList);
     };
 
     if (tokens.length > 0) {
-      fetchTokenIcons();
+      createTokenElement();
     }
   }, [tokens]);
 
@@ -82,7 +82,7 @@ export default function MyWallet({ wallet, setWallet, setSeedPhrase, provider })
         </p>
         <LogoutOutlined onClick={logout} />
       </nav>
-      <section>
+      <section className="h-[480px] overflow-auto">
         {(error && fetched && <p className="text-red-500">{error}</p>) ||
         (fetched && !error)
           ? tokenElements.length > 0
